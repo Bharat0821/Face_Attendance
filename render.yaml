@@ -1,0 +1,21 @@
+cat > render.yaml << 'EOF'
+services:
+  - type: web
+    name: face-attendance-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://nikitakinha2002:Nikita@cluster.sxsrrbt.mongodb.net/?appName=Cluster
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+
+  - type: static
+    name: face-attendance-frontend
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+EOF

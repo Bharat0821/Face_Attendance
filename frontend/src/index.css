@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+.animate-scan {
+  position: absolute;
+  width: 100%;
+  animation: scan 2s linear infinite;
+}
