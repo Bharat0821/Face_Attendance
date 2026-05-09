@@ -5,35 +5,44 @@ const cors = require('cors');
 
 const app = express();
 
-// ✅ CORS Configuration
+// CORS Configuration
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
+  'https://face-detection-attendance-egim.onrender.com',
   process.env.FRONTEND_URL || ''
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('CORS blocked:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// ✅ Models
+// Models
 const Student = require('./models/Student');
 const Attendance = require('./models/Attendance');
 
-// ✅ MongoDB Connection
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://nikitakinha2002:Nikita@cluster.sxsrrbt.mongodb.net/?appName=Cluster')
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.log("❌ MongoDB Error:", err));
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("MongoDB Error:", err));
 
 app.post('/api/teacher/login', (req, res) => {
   const { teacherId, name } = req.body;
@@ -133,5 +142,5 @@ app.delete('/api/clear', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
