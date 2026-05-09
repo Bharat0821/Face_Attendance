@@ -5,29 +5,9 @@ const cors = require('cors');
 
 const app = express();
 
-// CORS Configuration
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'https://face-detection-attendance-egim.onrender.com',
-  process.env.FRONTEND_URL || ''
-].filter(Boolean);
-
+// Simple CORS Configuration
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) {
-      callback(null, true);
-      return;
-    }
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
