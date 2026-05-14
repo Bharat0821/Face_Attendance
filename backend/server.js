@@ -26,10 +26,10 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://nikitakinha2002:Nikita@
 
 app.post('/api/teacher/login', (req, res) => {
   const { teacherId, name } = req.body;
-  if (teacherId === "ADMIN123" && name.toLowerCase() === "nikita") {
+  if (teacherId === "ADMIN123" && name.toLowerCase() === "admin") {
     return res.json({
       success: true,
-      teacher: { name: "Nikita", teacherId: "ADMIN123" }
+      teacher: { name: "Admin", teacherId: "ADMIN123" }
     });
   }
   res.status(401).json({ success: false, message: "Invalid credentials" });
